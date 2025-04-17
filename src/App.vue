@@ -1,20 +1,38 @@
 <template>
-  <div class="app-container">
-    <h1>🌦️ تطبيق الطقس</h1>
-    <form @submit.prevent="getWeather">
-      <input v-model="city" type="text" placeholder="أدخل اسم المدينة" required />
-      <button type="submit">🔍 بحث</button>
+  <div class="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-sky-100 to-blue-300">
+    <h1 class="text-3xl font-bold mb-6 text-blue-800">🌦️ Weather App</h1>
+
+    <form @submit.prevent="getWeather" class="flex flex-col sm:flex-row gap-4 w-full max-w-md">
+      <input
+        v-model="city"
+        type="text"
+        placeholder="Enter city name"
+        required
+        class="flex-1 px-4 py-2 border rounded-md shadow focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+      <button
+        type="submit"
+        class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
+      >
+        Search
+      </button>
     </form>
 
-    <div v-if="weather" class="weather-card">
-      <h2>{{ weather.name }}, {{ weather.sys.country }}</h2>
-      <img :src="`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`" alt="Weather icon" />
-      <p>🌡️ درجة الحرارة: {{ weather.main.temp }}°C</p>
-      <p>🌬️ الرطوبة: {{ weather.main.humidity }}%</p>
-      <p>☁️ الحالة: {{ weather.weather[0].description }}</p>
+    <div v-if="weather" class="mt-8 bg-white p-6 rounded-xl shadow-lg text-center w-full max-w-md">
+      <h2 class="text-xl font-semibold mb-2">
+        {{ weather.name }}, {{ weather.sys.country }}
+      </h2>
+      <img
+        :src="`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`"
+        :alt="weather.weather[0].description"
+        class="mx-auto"
+      />
+      <p class="text-lg">🌡️ Temperature: {{ weather.main.temp }}°C</p>
+      <p>💧 Humidity: {{ weather.main.humidity }}%</p>
+      <p>🌥️ Condition: {{ weather.weather[0].description }}</p>
     </div>
 
-    <p v-if="error" class="error">{{ error }}</p>
+    <p v-if="error" class="text-red-600 mt-4 font-medium">{{ error }}</p>
   </div>
 </template>
 
@@ -26,58 +44,18 @@ const city = ref('')
 const weather = ref(null)
 const error = ref('')
 
-const API_KEY = 'YOUR_API_KEY' // عوّضها بالمفتاح ديالك من OpenWeatherMap
+const API_KEY = 'f7b0f8a61c20f0a0a26420a320cd3df3' // don't expose this in production
 
 const getWeather = async () => {
   error.value = ''
   weather.value = null
   try {
     const res = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&units=metric&lang=ar&appid=${API_KEY}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&units=metric&lang=en&appid=${API_KEY}`
     )
     weather.value = res.data
   } catch (err) {
-    error.value = '⚠️ لم يتم العثور على المدينة. جرب اسم آخر.'
+    error.value = '⚠️ City not found. Please try another one.'
   }
 }
 </script>
-
-<style scoped>
-.app-container {
-  max-width: 600px;
-  margin: auto;
-  padding: 2rem;
-  text-align: center;
-  font-family: Arial, sans-serif;
-}
-input {
-  padding: 0.5rem;
-  width: 60%;
-  font-size: 1rem;
-  margin-right: 0.5rem;
-}
-button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-}
-.weather-card {
-  margin-top: 2rem;
-  padding: 1rem;
-  border-radius: 12px;
-  background-color: #f0f8ff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.error {
-  margin-top: 1rem;
-  color: red;
-}
-@media (max-width: 600px) {
-  input {
-    width: 100%;
-    margin-bottom: 1rem;
-  }
-  button {
-    width: 100%;
-  }
-}
-</style>
