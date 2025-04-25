@@ -41,14 +41,14 @@ Créer une application météo simple, ergonomique et accessible, affichant des 
    cd weather-API
 2. Installation des dépendances :
 
-npm install
+   npm install
 
 3. Configuration de l’API :
 
-Crée un fichier .env à la racine du projet.
+   Crée un fichier .env à la racine du projet.
 
 Ajoute ta clé API :
-  VITE_WEATHER_API_KEY=ta_clé_ici
+   VITE_WEATHER_API_KEY=ta_clé_ici
 
 3. Lancement du serveur :
-  npm run dev
+   npm run dev
