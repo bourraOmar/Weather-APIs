@@ -40,15 +40,17 @@ Créer une application météo simple, ergonomique et accessible, affichant des 
    git clone https://github.com/ton-username/weather-API.git
    cd weather-API
 2. Installation des dépendances :
-
+   ```bash
    npm install
 
 3. Configuration de l’API :
 
    Crée un fichier .env à la racine du projet.
 
-Ajoute ta clé API :
+4. Ajoute ta clé API :
+   ```bash
    VITE_WEATHER_API_KEY=ta_clé_ici
 
-3. Lancement du serveur :
+5. Lancement du serveur :
+   ```bash
    npm run dev
